@@ -1,60 +1,44 @@
 import { logInAction } from "./actions"
 import axios from 'axios';
+import { queryAllByAttribute } from "@testing-library/react";
 
 export const logIn = (id,password) => {
   return async (dispatch,) => {
+    const data = {id: id,password: password}
+    // console.log(data);
 
     //validation
     if(id === "" || password === ""){
       alert("必須項目が未入力です")
       return false
     }
-    // const data = {id: id,password: password}
-    // await fetch('/',{
-    //   method: 'POST',
-    //   mode: 'cors',
-    //   cache: 'default',
-    //   credentials: 'same-origin',
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   },
-    //   redirect: 'follow',
-    //   referrerPolicy: 'no-referrer',
-    //   body: JSON.stringify(data)
-    // })
-    await axios.get("http://localhost:3000",{
-      id: id,
-      password: password})
+
+    await axios.post("http://localhost:3000",data)
 
       .then(res => {
-        console.log(res.data);
-        // const user = res.user
-        // if(user) {
-        //   const uid = user.uid
-        
-        //   dispatch(logInAction({
-        //     isLoggedIn: true,
-        //     uid: uid,
-        //     err: ""
-        // }));}
-        // console.log("認証OK");
-      }
+        if(res.data === null){
+          dispatch(logInAction({
+                isLoggedIn: false,
+                uid: "",
+                err: "IDまたはPASSWORDが間違っています"
+            }));
+            alert("IDまたはPASSWORDが間違っています");
+              return false
+        }else{
+          const uid = res.data
+          dispatch(logInAction({
+            isLoggedIn: true,
+            uid: uid,
+            err: ""
+        }));
+        console.log("認証OK");
+      }}
         )
-      // .catch(error => {
-      //   dispatch(logInAction({
-      //     isLoggedIn: false,
-      //     uid: "",
-      //     err: "IDまたはPASSWORDが間違っています"
-      //   }))
-      //   alert("IDまたはPASSWORDが間違っています");
-      //   console.log(error);
-        
-      // }
-      // )
-        
-        
     
-
+      .catch(error => {
+        console.log(error);  
+      }
+      )
 
   }
 }

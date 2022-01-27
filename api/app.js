@@ -2,10 +2,16 @@ const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
 const mysql = require('mysql2');
+const cors = require('cors');
 
 
 const app = express();
 const port = 3000;
+app.use(cors({
+  origin: 'http://localhost:3001',
+  credentials: true,
+  optionsSuccessStatus: 200
+}))
 
 const sess = {
   secret: 'secretsecretsecret',
@@ -20,10 +26,11 @@ if (app.get('env') === 'production') {
 }
 
 app.use(session(sess))
-
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
-app.get('/', (req, res) => {res.sendFile(__dirname + '/login.html');});
+// app.get('/', (req, res) => {res.sendFile(__dirname + '/login.html');});
+app.get('/', (req, res) => {console.log(req);});
 
 const connection = mysql.createConnection({
   host: 'db',
@@ -34,28 +41,33 @@ const connection = mysql.createConnection({
 
 
 app.post('/', (req, res) => {
+  console.log(req.body);
   connection.connect(function(err) {
     if (err) throw err;
     console.log('Connected!');
     const userid = req.body.id;
     const password = req.body.password;
+    console.log(userid);
 
 
     const sql = "SELECT password FROM users WHERE user_id = ?";
-    const password_db = connection.query(sql, userid, (error, results, fields) => {
+    connection.query(sql, userid, (error, results, fields) => {
       if (error) throw error;
-      console.log(results[0]['password']);
+      console.log(results);
 
-      if (password === results[0]['password']) {
+
+      if (results == "" || password !== results[0]['password']) {
+        res.send('null');
+        console.log(userid);
+    } else {
         req.session.regenerate((err) => {
-          req.session.userid = userid;
-          res.send({uid: userid});
-          // res.send(req.body)
-        });
-      } else {
-        console.log(err);
+        req.session.userid = userid;
+        console.log('ok');
+        res.send(userid);
+      });
       }
-    });
+    }
+    );
 
 
   });

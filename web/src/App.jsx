@@ -4,16 +4,6 @@ import './App.css';
 import LogIn from './temprates/Login';
 import {useDispatch,useSelector} from 'react-redux';
 
-// function App() {
-//   return (
-//     <div>
-//       <LogIn/>
-//       ログイン
-//     </div>
-//   );
-// }
-
-// export default App;
 
 function App() {
   const dospatch = useDispatch()
