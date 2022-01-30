@@ -5,14 +5,16 @@ import axios from 'axios';
 export const logIn = (id,password) => {
   return async (dispatch,) => {
     const data = {id: id,password: password}
-
-    //validation
+    const port = process.env.PORT
+    //validationc
     if(id === "" || password === ""){
       alert("必須項目が未入力です")
       return false
     }
 
-    await axios.post("https://login-function-iwamoto.herokuapp.com",data)
+
+
+    await axios.post("https://login-function-iwamoto.herokuapp.com"+ port,data)
 
       .then(res => {
         if(res.data === null){
