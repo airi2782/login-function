@@ -1,11 +1,10 @@
 import { logInAction } from "./actions"
 import axios from 'axios';
-import { queryAllByAttribute } from "@testing-library/react";
+// import { queryAllByAttribute } from "@testing-library/react";
 
 export const logIn = (id,password) => {
   return async (dispatch,) => {
     const data = {id: id,password: password}
-    // console.log(data);
 
     //validation
     if(id === "" || password === ""){
@@ -13,7 +12,7 @@ export const logIn = (id,password) => {
       return false
     }
 
-    await axios.post("http://localhost:3000",data)
+    await axios.post("https://login-function-iwamoto.herokuapp.com",data)
 
       .then(res => {
         if(res.data === null){
