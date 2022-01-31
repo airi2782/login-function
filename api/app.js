@@ -6,8 +6,6 @@ const cors = require('cors');
 
 
 const app = express();
-// app.set('port', (process.env.PORT || 5000));
-// app.listen(process.env.PORT || 5000)
 const port = 3000;
 
 app.use(cors({
@@ -32,8 +30,7 @@ app.use(session(sess))
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.get('/', (req, res) => {res.sendFile(__dirname + '/index.html');});
-// app.get('/', (req, res) => {console.log(req);});
+// app.get('/', (req, res) => {res.sendFile(__dirname + '/index.html');});
 
 const connection = mysql.createConnection({
   host: 'db',

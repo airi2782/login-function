@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useCallback} from 'react';
 import {LoginButton, TextInput,} from "../components";
 import {useDispatch, useSelector} from "react-redux";
 import {logIn} from "../reducks/users/operations";

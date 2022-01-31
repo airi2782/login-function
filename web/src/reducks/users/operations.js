@@ -6,7 +6,7 @@ export const logIn = (id,password) => {
   return async (dispatch,) => {
     const data = {id: id,password: password}
     const port = process.env.PORT
-    //validationc
+    //validation
     if(id === "" || password === ""){
       alert("必須項目が未入力です")
       return false
