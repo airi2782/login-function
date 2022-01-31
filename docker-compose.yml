@@ -38,7 +38,7 @@ services:
     volumes:
       - ./mysql:/var/lib/mysql
       # - ./db/my.cnf:/etc/mysql/conf.d/my.cnf
-      # - ./db/init_db:/docker-entrypoint-initdb.d
+      - ./db/init_db:/docker-entrypoint-initdb.d
     environment:
       - MYSQL_ROOT_PASSWORD=1234
       - MYSQL_DATABASE=login_db
