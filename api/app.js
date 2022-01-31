@@ -6,7 +6,10 @@ const cors = require('cors');
 
 
 const app = express();
+// app.set('port', (process.env.PORT || 5000));
+// app.listen(process.env.PORT || 5000)
 const port = 3000;
+
 app.use(cors({
   origin: 'http://localhost:3001',
   credentials: true,
@@ -29,13 +32,13 @@ app.use(session(sess))
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// app.get('/', (req, res) => {res.sendFile(__dirname + '/login.html');});
-app.get('/', (req, res) => {console.log(req);});
+app.get('/', (req, res) => {res.sendFile(__dirname + '/index.html');});
+// app.get('/', (req, res) => {console.log(req);});
 
 const connection = mysql.createConnection({
   host: 'db',
   user: 'root',
-  password: '27822750',
+  password: '1234',
   database: 'login_db'
 });
 
@@ -62,7 +65,7 @@ app.post('/', (req, res) => {
     } else {
         req.session.regenerate((err) => {
         req.session.userid = userid;
-        console.log('ok');
+        console.log('認証OK');
         res.send(userid);
       });
       }
@@ -75,25 +78,19 @@ app.post('/', (req, res) => {
 
 });
 
-app.get('/logout', (req, res) => {
-  req.session.destroy((err) => {
-    res.redirect('/');
-  });
-});
+// app.get('/logout', (req, res) => {
+//   req.session.destroy((err) => {
+//     res.redirect('/');
+//   });
+// });
 
-app.use((req, res, next) => {
-  if (req.session.userid) {
-    next();
-  } else {
-    res.redirect('/');
-  }
-});
-
-app.get('/user', (req, res) => {
-  res.send('Hello ' + req.session.userid);
-  console.log('認証OK');
-});
-
+// app.use((req, res, next) => {
+//   if (req.session.userid) {
+//     next();
+//   } else {
+//     res.redirect('/');
+//   }
+// });
 
 
 app.listen(port,() => {console.log(`listening on *:${port}`);});

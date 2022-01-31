@@ -11,7 +11,7 @@ services:
       - NODE_ENV=development
     volumes:
       - ./web:/usr/src/app
-    # command: npm start
+    command: yarn start
     ports:
       - 3001:3000
     tty: true
@@ -23,7 +23,6 @@ services:
       - 3000:3000
     volumes :
       - ./api:/api
-    # command: yarn nodemon
     tty: true
     stdin_open: true
     depends_on:
@@ -36,11 +35,12 @@ services:
     restart: always
     ports:
       - 3300:3306
-    # volumes:
+    volumes:
+      - ./mysql:/var/lib/mysql
       # - ./db/my.cnf:/etc/mysql/conf.d/my.cnf
       # - ./db/init_db:/docker-entrypoint-initdb.d
     environment:
-      - MYSQL_ROOT_PASSWORD=27822750
+      - MYSQL_ROOT_PASSWORD=1234
       - MYSQL_DATABASE=login_db
       - HOST=db
       - MYSQL_USER=root
