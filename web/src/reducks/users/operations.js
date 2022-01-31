@@ -14,7 +14,7 @@ export const logIn = (id,password) => {
 
 
 
-    await axios.post("https://login-function-iwamoto.herokuapp.com"+ port,data)
+    await axios.post("http://localhost:3000",data)
 
       .then(res => {
         if(res.data === null){
